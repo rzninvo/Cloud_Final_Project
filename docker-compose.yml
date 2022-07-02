@@ -1,0 +1,31 @@
+version: "3.3"
+services:
+  app:
+    image: 'rohamzn/note_reader:1.2'
+    container_name: app
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    networks:
+      - mongonetwork
+    ports:
+      - "8080:8080"
+  mongo:
+    image: mongo:latest
+    hostname: mongodb_test
+    container_name: mongo
+    environment:
+      MONGO_INITDB_DATABASE: data
+      MONGO_INITDB_ROOT_USERNAME: rohamzn
+      MONGO_INITDB_ROOT_PASSWORD: "75321475"
+      
+    networks:
+      - mongonetwork
+    ports:
+      - 27017:27017
+    volumes:
+      - /opt/data/post/:/data/db
+networks:
+ mongonetwork:
+   driver: bridge

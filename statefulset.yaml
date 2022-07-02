@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mongo
+  name: mongo-svc2
+spec:
+  ports:
+    - port: 27017
+      protocol: TCP
+      targetPort: 27017
+  selector:
+    app: my-mongo
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: my-mongo
+spec:
+  selector:
+    matchLabels:
+      app: my-mongo
+  serviceName: "mongo-svc2"
+  replicas: 1
+  minReadySeconds: 10 # by default is 0
+  template:
+    metadata:
+      labels:
+        app: my-mongo
+    spec:
+      terminationGracePeriodSeconds: 10
+      volumes:
+        - name: volume
+          persistentVolumeClaim:
+              claimName: claim
+      containers:
+      - name: my-mongo
+        image: mongo:latest
+        ports:
+        - containerPort: 27017
+          name: my-mongo
+        envFrom:
+          - secretRef:
+              name: mongo-creds
+        volumeMounts:
+        - name: volume
+          mountPath: /data/db1
