@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: app-server
+  name: app-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-server
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: app-server
+    spec:
+      containers:
+        - image: rohamzn/note_reader:1.1
+          name: app-server
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: mongo-creds
+          volumeMounts:
+            - name: config-map
+              mountPath: "/app/config.json"
+              subPath: config.json
+      volumes:
+        - name: config-map
+          configMap:
+            name: server-config
