@@ -18,7 +18,7 @@ spec:
         app: app-server
     spec:
       containers:
-        - image: rohamzn/note_reader:1.1
+        - image: rohamzn/note_reader:1.2
           name: app-server
           ports:
             - containerPort: 8000
@@ -28,7 +28,7 @@ spec:
           volumeMounts:
             - name: config-map
               mountPath: "/app/config.json"
-              subPath: config.json
+              subPath: info-config.json
       volumes:
         - name: config-map
           configMap:

@@ -4,6 +4,7 @@ from datetime import datetime
 import string
 import random
 import json
+import os
 import socket
 app = Flask(__name__)
 data = {}
@@ -12,23 +13,27 @@ def random_url_generator():
     letters = string.ascii_lowercase
     link=''.join(random.choice(letters) for i in range(10)) 
     return link
-
 try:
         with open("config.json", "r") as config:
             data = json.load(config)
             print(data)
 except:
-
+    print("Could not fetch config! Loading from default configs...")
     data['minutes_to_expire']= 5
     data['port'] = 8000
-    data['user'] = "rohamzn"
-    data['pass'] = "75321475"
-    data['url'] = "@cluster0.7qf7pgo.mongodb.net/?retryWrites=true&w=majority"
+    data['hostname'] = "mongo-svc"
 
-client = pymongo.MongoClient("mongodb+srv://"+data['user']+":"+data['pass']+data['url'])
+username = os.getenv('PYMONGO_USERNAME')
+password = os.getenv('PYMONGO_PASSWORD')
+
+if username is None or password is None:
+        print("Entered default secret")
+        username = "rohamzn"
+        password = "75321475"
+
+client = pymongo.MongoClient(host=data['hostname'],port=27017,username=username,password=password,authSource="admin")
 
 db = client['data']
-
 notes= db['notes']
 
 @app.route("/")

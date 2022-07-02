@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: server-config
 data:
-  config.json: |
+  info-config.json: |
    {
     	"port": 8000,
     	"minutes_to_expire": 5,
