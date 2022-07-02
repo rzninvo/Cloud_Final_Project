@@ -5,7 +5,9 @@ WORKDIR /app
 COPY requirements.txt ./
 RUN pip install --target=/app/dependencies -r requirements.txt
 
-COPY app.py ./
+COPY ./templates ./templates
+COPY server.py ./
+COPY config.json ./
 
 # Stage 2: Runtime
 FROM python:3.8-alpine
@@ -16,4 +18,4 @@ WORKDIR /app
 COPY --from=builder /app .
 ENV PYTHONPATH="${PYTHONPATH}:/app/dependencies"
 
-CMD ["python","./app.py"]
+CMD ["python","./server.py"]
