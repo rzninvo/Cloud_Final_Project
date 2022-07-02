@@ -1,0 +1,90 @@
+<html>
+
+<head>
+    <style>
+         :root {
+            --color-light: white;
+            --color-dark: #212121;
+            --color-signal: #0019fa;
+            --color-background: var(--color-light);
+            --color-text: var(--color-dark);
+            --color-accent: var(--color-signal);
+        }
+        
+        .card {
+            background: var(--color-background);
+            padding: calc(4 * var(--size-bezel));
+            margin-top: calc(4 * var(--size-bezel));
+            border-radius: var(--size-radius);
+            border: 4px solid var(--color-shadow, currentColor);
+        }
+        
+        .design {
+            max-width: 40rem;
+            padding: 1rem;
+        }
+        
+        .input {
+            position: relative;
+        }
+        
+        .input__label {
+            position: absolute;
+            left: 0;
+            top: 0;
+            padding: calc(var(--size-bezel) * 0.75) calc(var(--size-bezel) * .5);
+            margin: calc(var(--size-bezel) * 0.75 + 3px) calc(var(--size-bezel) * .5);
+            background: pink;
+            white-space: nowrap;
+            transform: translate(0, 0);
+            transform-origin: 0 0;
+            background: var(--color-background);
+            transition: transform 120ms ease-in;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+        
+        .input__field {
+            box-sizing: border-box;
+            display: block;
+            width: 100%;
+            border: 3px solid currentColor;
+            padding: calc(var(--size-bezel) * 1.5) var(--size-bezel);
+            color: currentColor;
+            background: transparent;
+            border-radius: var(--size-radius);
+        }
+        
+        .input__field:not(:-moz-placeholder-shown)+.input__label {
+            transform: translate(0.25rem, -65%) scale(0.8);
+            color: var(--color-accent);
+        }
+        
+        .input__field:not(:-ms-input-placeholder)+.input__label {
+            transform: translate(0.25rem, -65%) scale(0.8);
+            color: var(--color-accent);
+        }
+        
+        .input__field:focus+.input__label,
+        .input__field:not(:placeholder-shown)+.input__label {
+            transform: translate(0.25rem, -65%) scale(0.8);
+            color: var(--color-accent);
+        }
+    </style>
+</head>
+
+<body>
+
+    <article class="design" style=" width: 50%;
+    margin: 0 auto;">
+        <h1 style="text-align:center;">Private Note</h1>
+
+        <div class="card">
+            <label class="input">
+                <textarea name="input" class="input__field" id="text_area" type="text" placeholder=" "
+                    rows="5">{{text}}</textarea>
+                <span class="input__label">Your note</span>
+            </label>
+
+        </div>
+        </svg>
